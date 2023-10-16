@@ -1,4 +1,4 @@
-import { Container, Form } from './styles'
+import { Container, Form, Background } from './styles'
 import { FiMail, FiLock } from 'react-icons/fi'
 
 import { Input } from '../../components/Input'
@@ -32,6 +32,8 @@ export function SignIn(){
                 {/* <ButtonText title="Criar conta" $isactive/> */}
                 <a href="#">Criar conta</a>
             </Form>
+
+            <Background />
         </Container>
     )
 }
