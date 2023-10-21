@@ -12,7 +12,7 @@ export const Container = styled.div`
         display: flex;
         align-items: center;
 
-        padding: 0 124px;
+        padding: 0 130px;
 
         svg {
             color: ${({ theme }) => theme.COLORS.GRAY_100};
@@ -23,5 +23,5 @@ export const Container = styled.div`
 
 export const Form = styled.form`
     max-width: 340px;
-    margin: 30px auto 0;
+    margin: 40px auto 0;
 `;
