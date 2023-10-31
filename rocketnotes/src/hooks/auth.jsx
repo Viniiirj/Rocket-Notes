@@ -3,9 +3,9 @@ import { api } from '../services/api'
 
 export const AuthContext = createContext({})
 
-function AuthProvider({ children }) {
+function AuthProvider({children}) {
 
-    async function singIn({ email, password }){
+    async function signIn({ email, password }){
         try {
             const response = await api.post('/sessions', { email, password })
             console.log(response)
@@ -19,16 +19,15 @@ function AuthProvider({ children }) {
     }
     
     return (
-        <AuthContext.Provider value= {{ singIn }}>
+        <AuthContext.Provider value= {{ signIn }}>
             {children}
         </AuthContext.Provider>
     )
 }
 
-function useAuth(){
-
-    const context = useContext(AuthProvider);
-
-    return context;
-}
-export { AuthProvider, useAuth }
+function useAuth() {
+    const context = useContext(AuthContext)
+    return context
+  }
+  
+  export { AuthProvider, useAuth }
