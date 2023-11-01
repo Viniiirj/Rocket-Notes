@@ -13,7 +13,8 @@ function AuthProvider({children}) {
             localStorage.setItem("@rocktnotes:user", JSON.stringify(user));
             localStorage.setItem("@rocktnotes:token", token);
             
-            api.defaults.headers.authorization = `Bearer ${token}`
+            api.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
             setData({user, token})
         } catch(error) {
             if(error.response) {
@@ -36,7 +37,7 @@ function AuthProvider({children}) {
             const user = localStorage.getItem("@rocktnotes:user");
 
             if(token && user){
-            api.defaults.headers.authorization = `Bearer ${token}`
+            api.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
             setData({
                 token,
