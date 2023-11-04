@@ -5,28 +5,42 @@ import { Button } from '../../components/Button'
 import { Link } from 'react-router-dom'
 import { useState } from 'react';
 import { useAuth } from '../../hooks/auth';
-
+import { api } from '../../services/api';
+import avatarPlaceholder from '../../assets/avatar_placeholder.svg'
 
 export function Profile() {
     const { user, updateProfile } = useAuth();
-
+    
     const [name, setName] = useState(user.name);
     const [email, setEmail] = useState(user.email);
-    const [passwordold, setPasswordOld] = useState();
-    const [passwordnew, setPasswordNew] = useState();
+    const [passwordOld, setPasswordOld] = useState();
+    const [passwordNew, setPasswordNew] = useState();
+    
+    const avatarUrl = user.avatar ? `${api.defaults.baseURL}/files/${user.avatar}` : avatarPlaceholder; 
+
+    const [avatar, setAvatar] = useState(avatarUrl);
+    const [avatarFile, setAvatarFile] = useState(null);
 
     async function handleUpdate(){
         const user = {
             name,
             email,
-            passwordold: passwordold,
-            passwordnew: passwordnew
+            password: passwordNew,
+            old_password: passwordOld,
 
         }
         
-        await updateProfile({ user })
+        await updateProfile({user, avatarFile })
     }
 
+    function handleChangeAvatar(){
+        const file = event.target.files[0];
+        setAvatarFile(file);
+
+        const imagePreview = URL.createObjectURL(file);
+        setAvatar(imagePreview)
+    }
+    
     return (
         <Container>
             <header>
@@ -38,13 +52,14 @@ export function Profile() {
             <Form>
                 <Avatar>
                     <img 
-                        src="https://github.com/viniiirj.png"
+                        src={avatar} // https://github.com/viniiirj.png
                         alt='Foto do usuário'
                     />
                     
                     <input 
                         id='avatar'
                         type='file'
+                        onChange={handleChangeAvatar}
                     />
 
                     <label htmlFor='avatar'>
