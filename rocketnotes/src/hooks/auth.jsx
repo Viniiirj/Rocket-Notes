@@ -36,12 +36,12 @@ function AuthProvider({children}) {
         try {
 
             if(avatarFile) {
-                const fileUploadForm = new FormData();
-                fileUploadForm.append('avatar', avatarFile);
-
-                const response = await api.patch('/users/avatar', fileUploadForm);
+                const fileUploadForm = new FormData(); // to send avatar as a file
+                fileUploadForm.append("avatar", avatarFile);
+        
+                const response = await api.patch("/users/avatar", fileUploadForm);
                 user.avatar = response.data.avatar;
-            }
+              }
             
             await api.put("/users", user);
             localStorage.setItem('@rocketnotes:user', JSON.stringify(user))
