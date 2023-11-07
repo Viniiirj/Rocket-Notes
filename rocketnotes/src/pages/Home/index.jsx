@@ -1,5 +1,6 @@
 import { FiPlus, FiSearch } from 'react-icons/fi'
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { Container, Brand, Menu, Search, Content, NewNote } from './styles';
 import { Header } from '../../components/Header'
@@ -16,7 +17,14 @@ export function Home() {
     const [tags, setTags] = useState([]);
     const [tagsSelected, setTagsSelected] = useState([]);
     const [notes, setNotes] = useState([]);
+
+    const navigate = useNavigate();
+
     function handleTagSelected(tagName){
+        if(tagName === "all"){
+            return setTagsSelected([])
+        }
+
         const alreadySelected = tagsSelected.includes(tagName)
 
         if(alreadySelected) {
@@ -26,6 +34,10 @@ export function Home() {
             setTagsSelected(prevState => [...prevState, tagName])
         }
     }
+
+    function handleDetails(id) {
+        navigate(`/details/${id}`);
+      }
 
     useEffect(() => {
         async function fetchTags() {
@@ -44,7 +56,7 @@ export function Home() {
     },[tagsSelected, search])
     
     return (
-        <Container>
+        <Container >
             <Brand>
             <h1>Rocktnotes</h1>
             </Brand>
@@ -77,7 +89,7 @@ export function Home() {
                 <Input 
                 placeholder="Pesquisar pelo titulo" 
                 icon={FiSearch}
-                onChange={e => setSearch(e.target.value)}
+                onChange={(e) => setSearch(e.target.value)}
                 />
             </Search>
 
@@ -86,8 +98,9 @@ export function Home() {
                     {
                         notes.map(note => (
                         <Note 
-                            key={String(note.id)}
-                            data={note}
+                        key={String(note.id)}
+                        data={note}
+                        onClick={() => handleDetails(note.id)}
                         />
                         ))
                     }
@@ -102,3 +115,4 @@ export function Home() {
         </Container>
     )
 }
+
